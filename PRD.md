@@ -57,9 +57,10 @@
    - 输出推荐短语/单词列表
    - 每条需包含：
      - 短语/单词
-     - 老师当时使用的原句
+     - 老师当时使用的完整句子（英文）
      - 出现的时间戳（分:秒）便于回看视频
-     - 对话话题/上下文（当时在聊什么）
+     - 对话话题/上下文（英文呈现）
+     - 2–3 个额外英文例句
 
 4. **关键约束**
    - 只从**老师发言**中抽取（学生发言不作为候选）。
@@ -91,9 +92,13 @@
 
 **Skill 输出**
 - phrase: **magnificent building**
-  - sentence: "It was just such a magnificent building at the time..."
+  - sentence: "It was just such a magnificent building at the time."
   - timestamp: 12:34
-  - context: 讨论罗马斗兽场的规模和历史
+  - context: Discussing the size and history of the Colosseum.
+  - examples:
+    - "The cathedral is a magnificent building with stained glass windows."
+    - "They preserved the magnificent building as a national landmark."
+    - "She studied the magnificent building for her architecture class."
 
 ---
 
