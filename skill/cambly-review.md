@@ -104,7 +104,7 @@ Scan all transcript entries where `speaker === "teacher"`. Identify expressions 
 
 **Skip** very basic or filler vocabulary such as "good", "yes", "ok", "right", "sure", "yeah".
 
-**Use the student's level from Step 3 to filter recommendations.** For a beginner, focus on common phrasal verbs and everyday collocations — skip advanced idioms they won't encounter often. For an upper-intermediate or advanced student, skip expressions they likely already know and prioritize nuanced idioms, less common phrasal verbs, and sophisticated collocations. The goal is to recommend expressions that are slightly above the student's current level.
+**Use the student's level from Step 3 to filter out expressions that are too simple.** Skip phrases the student clearly already knows based on their assessed level. However, never skip an expression just because it seems too advanced — these are real phrases from a real conversation, and encountering them in context is a valuable learning opportunity.
 
 Aim for **5 to 10 recommendations** per lesson. If the lesson is short or the teacher used mostly simple language, fewer is fine. Quality matters more than quantity.
 
