@@ -1,6 +1,6 @@
 # Cambly Lesson Review
 
-Save your Cambly lesson transcripts locally with a Chrome extension, then use a skill to analyze your teacher's speech and surface the idioms, phrasal verbs, and expressions worth remembering.
+Save your Cambly lesson transcripts locally with a Chrome extension, then use a skill to analyze your tutor's speech and surface the idioms, phrasal verbs, and expressions worth remembering.
 
 > **中文文档 →** [docs/README_zh.md](docs/README_zh.md)
 
@@ -13,7 +13,7 @@ Cambly Replay Page  ──>  Chrome Extension  ──>  JSON transcript  ──>
 ```
 
 1. **Save** — The Chrome extension scrapes your lesson replay and saves the transcript as a structured JSON file.
-2. **Review** — The skill reads the transcript, assesses your level, and recommends expressions from your teacher's speech — with context, examples, and native-language explanations.
+2. **Review** — The skill reads the transcript, assesses your level, and recommends expressions from your tutor's speech — with context, examples, and native-language explanations.
 
 ---
 
@@ -33,7 +33,7 @@ Cambly Replay Page  ──>  Chrome Extension  ──>  JSON transcript  ──>
 3. Click **Scrape & Save**
 4. A JSON file is saved to `~/Downloads/cambly-transcripts/`
 
-Files are named automatically: `cambly-2026-03-15-jane_tutor.json`
+Files are named automatically: `cambly-2026-03-15-tutor_name.json`
 
 > **Note:** You can change the save folder in the extension popup, but make sure to also update the path in `skill/cambly-review.md` so the skill can find your files.
 
@@ -53,12 +53,12 @@ Once you have a transcript, just ask your Code Agent to review it — in any lan
 
 | Step | Description |
 |------|-------------|
-| **Find** | Locates the right transcript by date, teacher, or time range |
+| **Find** | Locates the right transcript by date, tutor, or time range |
 | **Assess** | Reads your speech to gauge your English level |
-| **Extract** | Picks out idioms, phrasal verbs, and collocations from your **teacher's** speech |
+| **Extract** | Picks out idioms, phrasal verbs, and collocations from your **tutor's** speech |
 | **Present** | Shows each expression with original sentence, context, examples, and a native-language explanation |
 
-The skill filters out expressions that are too simple for your level, but keeps advanced ones — if your teacher used it in conversation, it's worth learning.
+The skill filters out expressions that are too simple for your level, but keeps advanced ones — if your tutor used it in conversation, it's worth learning.
 
 ### Skill setup
 

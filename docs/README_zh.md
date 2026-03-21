@@ -33,7 +33,7 @@ Cambly 回放页面  ──>  Chrome 扩展  ──>  JSON 对话记录  ──>
 3. 点击 **Scrape & Save**
 4. JSON 文件会保存到 `~/Downloads/cambly-transcripts/`
 
-文件自动命名为：`cambly-2026-03-15-jane_tutor.json`
+文件自动命名为：`cambly-2026-03-15-tutor_name.json`
 
 > **注意：** 你可以在扩展弹窗中修改保存文件夹，但需要同步更新 `skill/cambly-review.md` 中的路径，否则 Skill 无法找到你的文件。
 
