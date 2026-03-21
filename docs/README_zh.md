@@ -68,7 +68,7 @@ cp skill/cambly-review.md ~/.claude/skills/cambly-review/SKILL.md
 </details>
 
 <details>
-<summary><strong>Codex CLI</strong></summary>
+<summary><strong>Codex</strong></summary>
 
 ```bash
 mkdir -p ~/.codex/skills/cambly-review
@@ -77,7 +77,7 @@ cp skill/cambly-review.md ~/.codex/skills/cambly-review/SKILL.md
 </details>
 
 <details>
-<summary><strong>Gemini CLI</strong></summary>
+<summary><strong>Gemini</strong></summary>
 
 ```bash
 mkdir -p ~/.gemini/skills/cambly-review
@@ -86,7 +86,7 @@ cp skill/cambly-review.md ~/.gemini/skills/cambly-review/SKILL.md
 </details>
 
 <details>
-<summary><strong>Copilot CLI</strong></summary>
+<summary><strong>Copilot</strong></summary>
 
 ```bash
 mkdir -p ~/.copilot/skills/cambly-review
@@ -132,7 +132,7 @@ Skill 会过滤掉对你来说太简单的表达，但不会跳过高级的。
 >   2. We need someone who can hit the ground running without much training.
 >   3. After the onboarding, he hit the ground running on the first day.
 >
-> > 中文释义：形容某人很快适应新环境并开始高效工作。
+> > 释义：形容某人很快适应新环境并开始高效工作。
 
 释义语言会自动适配——用中文提问显示中文释义，用西班牙语提问显示西班牙语释义，以此类推。
 

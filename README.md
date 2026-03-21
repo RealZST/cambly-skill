@@ -68,7 +68,7 @@ cp skill/cambly-review.md ~/.claude/skills/cambly-review/SKILL.md
 </details>
 
 <details>
-<summary><strong>Codex CLI</strong></summary>
+<summary><strong>Codex</strong></summary>
 
 ```bash
 mkdir -p ~/.codex/skills/cambly-review
@@ -77,7 +77,7 @@ cp skill/cambly-review.md ~/.codex/skills/cambly-review/SKILL.md
 </details>
 
 <details>
-<summary><strong>Gemini CLI</strong></summary>
+<summary><strong>Gemini</strong></summary>
 
 ```bash
 mkdir -p ~/.gemini/skills/cambly-review
@@ -86,7 +86,7 @@ cp skill/cambly-review.md ~/.gemini/skills/cambly-review/SKILL.md
 </details>
 
 <details>
-<summary><strong>Copilot CLI</strong></summary>
+<summary><strong>Copilot</strong></summary>
 
 ```bash
 mkdir -p ~/.copilot/skills/cambly-review
