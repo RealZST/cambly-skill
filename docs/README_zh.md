@@ -1,6 +1,6 @@
 # Cambly 课后复习
 
-用 Chrome 扩展保存 Cambly 课程对话记录，再用 Skill 分析老师的发言，帮你整理值得记住的习语、短语动词和实用表达。
+一个 coding agent skill，用于复习 Cambly 课程——从老师的发言中整理出值得记住的习语、短语动词和实用表达。附带 Chrome 扩展，可将课程对话记录保存到本地。
 
 > **English →** [README.md](../README.md)
 

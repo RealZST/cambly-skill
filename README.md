@@ -1,6 +1,6 @@
 # Cambly Lesson Review
 
-Save your Cambly lesson transcripts locally with a Chrome extension, then use a skill to analyze your tutor's speech and surface the idioms, phrasal verbs, and expressions worth remembering.
+A coding agent skill that reviews your Cambly lesson transcripts — surfacing idioms, phrasal verbs, and expressions worth remembering from your tutor's speech. Comes with a Chrome extension to save transcripts locally.
 
 > **中文文档 →** [docs/README_zh.md](docs/README_zh.md)
 
