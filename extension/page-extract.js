@@ -1,7 +1,7 @@
 // =============================================================================
 // Cambly Transcript Scraper — Page-level script (MAIN world)
-// Handles ALL DOM interaction: tab switching, date extraction, React fiber read.
-// Communicates with content.js (ISOLATED world) via CustomEvents.
+// Extracts lesson data from React fiber props. Switches to Speech-to-Text tab
+// only when needed. Communicates with content.js (ISOLATED world) via CustomEvents.
 // =============================================================================
 
 (function () {
@@ -17,10 +17,9 @@
     selectedTabClass: '_selectedTab',
     messageRow:
       'div[class*="_alignItemsstart"][class*="_row"][class*="_flex"][class*="_marginTop"]',
-    teacherLink: 'a[href*="/student/tutors/"]',
   };
 
-  const TAB = { FEEDBACK: 0, STT: 1 };
+  const TAB_STT = 1;
 
   // ---------------------------------------------------------------------------
   // Tab helpers
@@ -55,7 +54,7 @@
 
   function extractDateFromReactProps() {
     // Find any element with a React fiber to reach the root
-    const seed = document.querySelector('[class*="_tab_"]') || document.querySelector(SEL.teacherLink);
+    const seed = document.querySelector('[class*="_tab_"]') || document.querySelector(SEL.tab);
     if (!seed) return null;
 
     const fiberKey = Object.keys(seed).find(
@@ -89,69 +88,7 @@
   }
 
   // ---------------------------------------------------------------------------
-  // Date extraction — DOM text (fallback for all locales)
-  // ---------------------------------------------------------------------------
-
-  function parseDateString(text) {
-    if (!text) return null;
-
-    const zh = text.match(/(\d{4})年(\d{1,2})月(\d{1,2})日/);
-    if (zh)
-      return `${zh[1]}-${String(zh[2]).padStart(2, '0')}-${String(zh[3]).padStart(2, '0')}`;
-
-    const MONTHS = { jan: '01', feb: '02', mar: '03', apr: '04', may: '05', jun: '06',
-      jul: '07', aug: '08', sep: '09', oct: '10', nov: '11', dec: '12' };
-
-    const en = text.match(
-      /(Jan(?:uary)?|Feb(?:ruary)?|Mar(?:ch)?|Apr(?:il)?|May|Jun(?:e)?|Jul(?:y)?|Aug(?:ust)?|Sep(?:tember)?|Oct(?:ober)?|Nov(?:ember)?|Dec(?:ember)?)\s+(\d{1,2})(?:st|nd|rd|th)?,?\s+(\d{4})/i
-    );
-    if (en) {
-      const mm = MONTHS[en[1].slice(0, 3).toLowerCase()];
-      return `${en[3]}-${mm}-${String(en[2]).padStart(2, '0')}`;
-    }
-
-    const enRev = text.match(
-      /(\d{1,2})(?:st|nd|rd|th)?\s+(Jan(?:uary)?|Feb(?:ruary)?|Mar(?:ch)?|Apr(?:il)?|May|Jun(?:e)?|Jul(?:y)?|Aug(?:ust)?|Sep(?:tember)?|Oct(?:ober)?|Nov(?:ember)?|Dec(?:ember)?)\s+(\d{4})/i
-    );
-    if (enRev) {
-      const mm = MONTHS[enRev[2].slice(0, 3).toLowerCase()];
-      return `${enRev[3]}-${mm}-${String(enRev[1]).padStart(2, '0')}`;
-    }
-
-    const iso = text.match(/(\d{4}-\d{2}-\d{2})/);
-    if (iso) return iso[1];
-
-    const slash = text.match(/(\d{1,2})\/(\d{1,2})\/(\d{4})/);
-    if (slash)
-      return `${slash[3]}-${String(slash[1]).padStart(2, '0')}-${String(slash[2]).padStart(2, '0')}`;
-
-    return null;
-  }
-
-  function extractDateFromFeedback() {
-    const link = document.querySelector(SEL.teacherLink);
-    if (!link) return null;
-
-    let container = link.parentElement;
-    for (let i = 0; i < 3 && container; i++) container = container.parentElement;
-    if (!container) return null;
-
-    const walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT);
-    while (walker.nextNode()) {
-      const date = parseDateString(walker.currentNode.textContent.trim());
-      if (date) return date;
-    }
-
-    return null;
-  }
-
-  function extractTeacherNameFromFeedback() {
-    const link = document.querySelector(SEL.teacherLink);
-    return link ? link.textContent.trim() : '';
-  }
-
-  // ---------------------------------------------------------------------------
-  // React fiber extraction
+  // React fiber extraction (transcript, names, duration)
   // ---------------------------------------------------------------------------
 
   function extractName(alt) {
@@ -183,8 +120,9 @@
       const props = fiber.memoizedProps || {};
       if (Array.isArray(props.transcript) && props.transcript.length > 0) {
         const tutorId = props.tutor?.userId || props.tutor?.id || '';
+        const tutorDisplayName = props.tutor?.displayName || '';
 
-        // Speaker names from DOM avatars
+        // Speaker names from DOM avatars (fallback for tutor, primary for student)
         const rows = document.querySelectorAll(SEL.messageRow);
         let teacherName = '';
         let studentName = '';
@@ -201,6 +139,9 @@
             studentName = name;
           if (teacherName && studentName) break;
         }
+
+        // Prefer React props for tutor name, fall back to avatar
+        teacherName = teacherName || tutorDisplayName;
 
         const transcript = props.transcript.map((e) => ({
           speaker: e.userId === tutorId ? 'teacher' : 'student',
@@ -228,34 +169,28 @@
 
   async function handleRequest() {
     try {
-      // Step 1: Extract date from React props (language-independent)
-      const reactDate = extractDateFromReactProps();
+      // Step 1: Extract date from React props (language-independent, no tab switch)
+      const lessonDate = extractDateFromReactProps();
 
-      // Step 2: Go to feedback tab to get teacher name (and fallback date)
-      const originalTab = getActiveTabIndex();
-      if (originalTab !== TAB.FEEDBACK) {
-        await clickTab(TAB.FEEDBACK);
+      // Step 2: Ensure Speech-to-Text tab is active (transcript data only exists
+      //         in the fiber tree when this tab is rendered)
+      if (getActiveTabIndex() !== TAB_STT) {
+        await clickTab(TAB_STT);
+        // Wait for React to render transcript rows
+        await new Promise((r) => setTimeout(r, 800));
       }
 
-      const lessonDate = reactDate || extractDateFromFeedback();
-      const feedbackTeacher = extractTeacherNameFromFeedback();
-
-      // Step 3: Go to speech-to-text tab
-      await clickTab(TAB.STT);
-      // Extra wait for React to render rows
-      await new Promise((r) => setTimeout(r, 800));
-
-      // Step 4: Extract transcript from React fiber
+      // Step 3: Extract transcript, names, and duration from React fiber
       const reactData = extractTranscriptFromReact();
       if (!reactData || reactData.transcript.length === 0) {
         respond(null, 'No transcript data found.');
         return;
       }
 
-      // Step 5: Build final result
+      // Step 4: Build final result
       respond({
         transcript: reactData.transcript,
-        teacherName: reactData.teacherName || feedbackTeacher || 'Unknown Teacher',
+        teacherName: reactData.teacherName || 'Unknown Teacher',
         studentName: reactData.studentName || 'Unknown Student',
         duration: reactData.duration,
         date: lessonDate,
