@@ -133,8 +133,11 @@ After presenting the review to the user, save the full review content as a Markd
 
 **Naming convention:**
 
-- **Single lesson**: `cambly-review-{lesson_date}-{tutor_name}.md` — tutor name should be lowercased with spaces replaced by underscores. Example: `cambly-review-2026-03-09-gail_r.md`
-- **Multiple lessons**: `cambly-review-{today's_date}.md` — uses today's date since it's a batch review. Example: `cambly-review-2026-03-22.md`
+Tutor names should be lowercased with spaces replaced by underscores.
+
+- **Single lesson**: `cambly-review-{date}-{tutor}.md` — e.g. `cambly-review-2026-03-09-gail_r.md`
+- **Multiple lessons, same tutor**: `cambly-review-{earliest_date}-to-{latest_date}-{tutor}.md` — e.g. `cambly-review-2026-03-09-to-2026-03-15-gail_r.md`
+- **Multiple lessons, different tutors**: `cambly-review-{earliest_date}-to-{latest_date}.md` — e.g. `cambly-review-2026-03-09-to-2026-03-15.md`
 
 ## Important Notes
 
