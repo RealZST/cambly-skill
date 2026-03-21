@@ -43,7 +43,7 @@ Cambly 回放页面  ──>  Chrome 扩展  ──>  JSON 对话记录  ──>
 
 ## 📝 第二部分：复习 Skill
 
-保存对话记录后，用任何语言向你的 Code Agent 提问即可：
+保存对话记录后，用任何语言向你的 coding agent 提问即可：
 
 - *"Review my Cambly lesson from yesterday"*
 - *"昨天 Cambly 的课我该记哪些短语？"*
@@ -58,11 +58,11 @@ Cambly 回放页面  ──>  Chrome 扩展  ──>  JSON 对话记录  ──>
 | **提取** | 从**老师的发言**中挑出习语、短语动词和实用搭配 |
 | **展示** | 展示每个表达的原句、上下文、例句和母语释义 |
 
-Skill 会过滤掉对你来说太简单的表达，但不会跳过高级的——老师在对话中用到的，都值得学习。
+Skill 会过滤掉对你来说太简单的表达，但不会跳过高级的。
 
 ### Skill 安装
 
-将 skill 文件复制到你使用的 Code Agent 目录：
+将 skill 文件复制到你使用的 coding agent 目录：
 
 <details>
 <summary><strong>OpenClaw</strong></summary>

@@ -43,11 +43,11 @@ Files are named automatically: `cambly-2026-03-15-tutor_name.json`
 
 ## 📝 Part 2: Review Skill
 
-Once you have a transcript, just ask your Code Agent to review it — in any language:
+Once you have a transcript, just ask your coding agent to review it — in any language:
 
 - *"Review my Cambly lesson from yesterday"*
 - *"What phrases should I remember from my March 15 lesson?"*
-- *"帮我复习一下上周的课"*
+- *"Review last week's lessons"*
 
 ### What the skill does
 
@@ -58,11 +58,11 @@ Once you have a transcript, just ask your Code Agent to review it — in any lan
 | **Extract** | Picks out idioms, phrasal verbs, and collocations from your **tutor's** speech |
 | **Present** | Shows each expression with original sentence, context, examples, and a native-language explanation |
 
-The skill filters out expressions that are too simple for your level, but keeps advanced ones — if your tutor used it in conversation, it's worth learning.
+The skill filters out expressions that are too simple for your level, but keeps advanced ones.
 
 ### Skill setup
 
-Copy the skill file to whichever Code Agent you use:
+Copy the skill file to whichever coding agent you use:
 
 <details>
 <summary><strong>OpenClaw</strong></summary>
