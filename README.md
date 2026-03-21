@@ -24,13 +24,13 @@ A Chrome extension that extracts lesson transcripts from [Cambly](https://www.ca
 
 ### Output Format
 
-**Filename:** `cambly-{date}-{teacher}.json` (e.g., `cambly-2026-03-15-sabley01.json`)
+**Filename:** `cambly-{date}-{teacher}.json` (e.g., `cambly-2026-03-15-jane_tutor.json`)
 
 ```json
 {
   "meta": {
     "date": "2026-03-15",
-    "teacher": "sabley01",
+    "teacher": "jane_tutor",
     "student": "John",
     "duration": "28:45",
     "url": "https://www.cambly.com/..."
@@ -38,7 +38,7 @@ A Chrome extension that extracts lesson transcripts from [Cambly](https://www.ca
   "transcript": [
     {
       "speaker": "teacher",
-      "name": "sabley01",
+      "name": "jane_tutor",
       "text": "Hi, how are you today?",
       "timestamp": "0:03"
     },

@@ -24,13 +24,13 @@
 
 ### 输出格式
 
-**文件名：** `cambly-{日期}-{老师名}.json`（例如 `cambly-2026-03-15-sabley01.json`）
+**文件名：** `cambly-{日期}-{老师名}.json`（例如 `cambly-2026-03-15-jane_tutor.json`）
 
 ```json
 {
   "meta": {
     "date": "2026-03-15",
-    "teacher": "sabley01",
+    "teacher": "jane_tutor",
     "student": "John",
     "duration": "28:45",
     "url": "https://www.cambly.com/..."
@@ -38,7 +38,7 @@
   "transcript": [
     {
       "speaker": "teacher",
-      "name": "sabley01",
+      "name": "jane_tutor",
       "text": "Hi, how are you today?",
       "timestamp": "0:03"
     },
