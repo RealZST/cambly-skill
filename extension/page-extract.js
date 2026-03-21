@@ -50,7 +50,46 @@
   }
 
   // ---------------------------------------------------------------------------
-  // Date extraction (feedback tab)
+  // Date extraction — React props (language-independent, primary method)
+  // ---------------------------------------------------------------------------
+
+  function extractDateFromReactProps() {
+    // Find any element with a React fiber to reach the root
+    const seed = document.querySelector('[class*="_tab_"]') || document.querySelector(SEL.teacherLink);
+    if (!seed) return null;
+
+    const fiberKey = Object.keys(seed).find(
+      (k) => k.startsWith('__reactFiber') || k.startsWith('__reactInternalInstance')
+    );
+    if (!fiberKey) return null;
+
+    // Walk up to the root fiber
+    let root = seed[fiberKey];
+    while (root.return) root = root.return;
+
+    // BFS down looking for scheduledStartAt in lesson participant props
+    const queue = [root];
+    let visited = 0;
+    while (queue.length > 0 && visited < 600) {
+      const f = queue.shift();
+      if (!f) continue;
+      visited++;
+
+      const props = f.memoizedProps || {};
+      const lp = props.myLessonParticipant || props.lessonParticipant;
+      if (lp && lp.scheduledStartAt && lp.scheduledStartAt.$date) {
+        const d = new Date(lp.scheduledStartAt.$date);
+        return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+      }
+
+      if (f.child) queue.push(f.child);
+      if (f.sibling) queue.push(f.sibling);
+    }
+    return null;
+  }
+
+  // ---------------------------------------------------------------------------
+  // Date extraction — DOM text (fallback for all locales)
   // ---------------------------------------------------------------------------
 
   function parseDateString(text) {
@@ -60,20 +99,23 @@
     if (zh)
       return `${zh[1]}-${String(zh[2]).padStart(2, '0')}-${String(zh[3]).padStart(2, '0')}`;
 
+    const MONTHS = { jan: '01', feb: '02', mar: '03', apr: '04', may: '05', jun: '06',
+      jul: '07', aug: '08', sep: '09', oct: '10', nov: '11', dec: '12' };
+
     const en = text.match(
-      /(?:Jan(?:uary)?|Feb(?:ruary)?|Mar(?:ch)?|Apr(?:il)?|May|Jun(?:e)?|Jul(?:y)?|Aug(?:ust)?|Sep(?:tember)?|Oct(?:ober)?|Nov(?:ember)?|Dec(?:ember)?)\s+(\d{1,2}),?\s+(\d{4})/i
+      /(Jan(?:uary)?|Feb(?:ruary)?|Mar(?:ch)?|Apr(?:il)?|May|Jun(?:e)?|Jul(?:y)?|Aug(?:ust)?|Sep(?:tember)?|Oct(?:ober)?|Nov(?:ember)?|Dec(?:ember)?)\s+(\d{1,2})(?:st|nd|rd|th)?,?\s+(\d{4})/i
     );
     if (en) {
-      const d = new Date(text);
-      if (!isNaN(d.getTime())) return d.toISOString().slice(0, 10);
+      const mm = MONTHS[en[1].slice(0, 3).toLowerCase()];
+      return `${en[3]}-${mm}-${String(en[2]).padStart(2, '0')}`;
     }
 
     const enRev = text.match(
-      /(\d{1,2})\s+(?:Jan(?:uary)?|Feb(?:ruary)?|Mar(?:ch)?|Apr(?:il)?|May|Jun(?:e)?|Jul(?:y)?|Aug(?:ust)?|Sep(?:tember)?|Oct(?:ober)?|Nov(?:ember)?|Dec(?:ember)?)\s+(\d{4})/i
+      /(\d{1,2})(?:st|nd|rd|th)?\s+(Jan(?:uary)?|Feb(?:ruary)?|Mar(?:ch)?|Apr(?:il)?|May|Jun(?:e)?|Jul(?:y)?|Aug(?:ust)?|Sep(?:tember)?|Oct(?:ober)?|Nov(?:ember)?|Dec(?:ember)?)\s+(\d{4})/i
     );
     if (enRev) {
-      const d = new Date(text);
-      if (!isNaN(d.getTime())) return d.toISOString().slice(0, 10);
+      const mm = MONTHS[enRev[2].slice(0, 3).toLowerCase()];
+      return `${enRev[3]}-${mm}-${String(enRev[1]).padStart(2, '0')}`;
     }
 
     const iso = text.match(/(\d{4}-\d{2}-\d{2})/);
@@ -186,28 +228,31 @@
 
   async function handleRequest() {
     try {
-      // Step 1: Go to feedback tab to get date & teacher name
+      // Step 1: Extract date from React props (language-independent)
+      const reactDate = extractDateFromReactProps();
+
+      // Step 2: Go to feedback tab to get teacher name (and fallback date)
       const originalTab = getActiveTabIndex();
       if (originalTab !== TAB.FEEDBACK) {
         await clickTab(TAB.FEEDBACK);
       }
 
-      const lessonDate = extractDateFromFeedback();
+      const lessonDate = reactDate || extractDateFromFeedback();
       const feedbackTeacher = extractTeacherNameFromFeedback();
 
-      // Step 2: Go to speech-to-text tab
+      // Step 3: Go to speech-to-text tab
       await clickTab(TAB.STT);
       // Extra wait for React to render rows
       await new Promise((r) => setTimeout(r, 800));
 
-      // Step 3: Extract transcript from React fiber
+      // Step 4: Extract transcript from React fiber
       const reactData = extractTranscriptFromReact();
       if (!reactData || reactData.transcript.length === 0) {
         respond(null, 'No transcript data found.');
         return;
       }
 
-      // Step 4: Build final result
+      // Step 5: Build final result
       respond({
         transcript: reactData.transcript,
         teacherName: reactData.teacherName || feedbackTeacher || 'Unknown Teacher',
