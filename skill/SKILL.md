@@ -7,84 +7,50 @@ description: Review vocabulary, idioms, and phrasal verbs from Cambly lesson tra
 
 You help users review vocabulary and phrases from their Cambly English lesson transcripts. Your job is to analyze the teacher's speech, identify expressions worth learning, and present them in a structured format with examples.
 
-## Step 1: Find the Right Transcript Data
+## Step 1: Find and Load Transcript Data
 
-Transcript data can come from three sources, in priority order:
+This skill includes a helper script at `scripts/cambly.py` (in the same directory as this skill file). Determine the absolute path to the script based on where this skill file is installed, then run the commands below using your shell tool.
+
+**Python check:** Before using the script, verify Python is available by running `python3 --version`. If Python is not installed, skip the script and use the **fallback method** described at the end of this step.
 
 ### Priority 1: User-provided data
 
-If the user has provided transcript data in any form — a file path, an attached file, or pasted JSON/text content directly in the conversation — use that. Read the file or parse the provided content. Skip to Step 2.
+If the user provided a file path or attached a file, use it directly:
 
-### Priority 2: Default directory
+    python3 <skill_dir>/scripts/cambly.py student <file>
+    python3 <skill_dir>/scripts/cambly.py teacher <file>
 
-If no file was provided, search the default directory:
+Skip to Step 2.
 
-```
-~/Downloads/cambly-transcripts/cambly-*.json
-```
+### Priority 2: Find transcripts
 
-Files follow the naming convention `cambly-{YYYY-MM-DD}-{teacher_name}.json` (e.g., `cambly-2026-03-15-jane_tutor.json`).
+    python3 <skill_dir>/scripts/cambly.py list
+    python3 <skill_dir>/scripts/cambly.py list --last 3
+    python3 <skill_dir>/scripts/cambly.py list --tutor jane
+    python3 <skill_dir>/scripts/cambly.py list --week
+    python3 <skill_dir>/scripts/cambly.py list --dir ~/custom/path
 
-Use today's date to interpret relative time references ("yesterday", "this week", etc.).
+If the user specifies a custom transcript directory, pass it with `--dir <path>`.
 
-#### Selection Rules
+Pick the file(s) matching the user's request, then run `student` and `teacher` commands on each.
 
-| User says | What to do |
-|---|---|
-| No specifics — "review my Cambly lesson" | Pick the **most recent** file (by date in filename) |
-| A specific date — "my March 15 lesson", "2026-03-15" | Find the file matching that date |
-| A specific teacher — "review lessons with jane" | Find that teacher's **most recent lesson** (match teacher name in filename) |
-| A time range — "last 2 lessons", "this week", "last 3 lessons" | Determine the date range (e.g., "this week" = Monday–Sunday of current week), select all matching files |
-| A teacher + time — "jane's lessons this week" | Combine both filters: match teacher name AND date range |
-
-**If the selection is ambiguous** (e.g., multiple teachers on the same date), list the options briefly and ask the user to choose.
-
-#### Multiple Lessons
-
-When reviewing multiple lessons, read all selected files and present a **combined** review. Group recommendations by lesson (with date and teacher as section headers), but write a single unified opening and closing.
+When reviewing multiple lessons, present a **combined** review. Group recommendations by lesson (with date and tutor as section headers), but write a single unified opening and closing.
 
 ### Priority 3: No data found
 
-If no file was provided and no files exist in the default directory, tell the user:
+If no transcripts are found, tell the user where the script searched (`~/Downloads/cambly-transcripts/`) and ask them to provide a file path or attach a file.
 
-- Where you searched (`~/Downloads/cambly-transcripts/`)
-- Ask them to provide a file path or paste the transcript content directly
+### Fallback: No Python available
 
-## Step 2: Read and Parse the JSON Files
+If Python is not installed, read the transcript JSON file(s) directly using your file reading tool. Separate speaker utterances manually:
 
-Use the Read tool to open each selected file. The expected JSON structure is:
+- For student assessment (Step 2): read all entries where `speaker` is `"student"`
+- For tutor extraction (Step 3): read all entries where `speaker` is `"teacher"`
+- For file discovery: list `~/Downloads/cambly-transcripts/cambly-*.json` files and read their `meta` fields to match the user's request by date, tutor, or time range
 
-```json
-{
-  "meta": {
-    "date": "2026-03-20",
-    "teacher": "jane_tutor",
-    "student": "John",
-    "duration": "28:45",
-    "url": "https://..."
-  },
-  "transcript": [
-    {
-      "speaker": "teacher",
-      "name": "jane_tutor",
-      "text": "The sentence they said.",
-      "timestamp": "5:23"
-    },
-    {
-      "speaker": "student",
-      "name": "John",
-      "text": "The sentence they said.",
-      "timestamp": "5:45"
-    }
-  ]
-}
-```
+## Step 2: Assess the Student's English Level
 
-If the file structure differs from this, adapt accordingly and proceed with whatever fields are available.
-
-## Step 3: Assess the Student's English Level
-
-Read through all utterances where `speaker === "student"`. Based on vocabulary range, grammatical complexity, and fluency patterns, assess the student's approximate level:
+Based on the student's utterances from Step 1, assess vocabulary range, grammatical complexity, and fluency patterns to determine the student's approximate level:
 
 - **Beginner**: simple sentences, limited vocabulary, frequent errors
 - **Intermediate**: functional but with noticeable gaps, limited idiomatic usage
@@ -93,9 +59,9 @@ Read through all utterances where `speaker === "student"`. Based on vocabulary r
 
 Use this assessment to calibrate your recommendations. Target expressions that are slightly above the student's current level — challenging enough to be useful, but not so advanced that they feel irrelevant.
 
-## Step 4: Extract Recommendations from Teacher Utterances
+## Step 3: Extract Recommendations from Tutor Utterances
 
-Scan all transcript entries where `speaker === "teacher"`. Identify expressions worth learning, with the following priorities:
+Based on the tutor's utterances from Step 1, identify expressions worth learning, with the following priorities:
 
 1. **Idioms** (e.g. "hit the ground running", "a blessing in disguise")
 2. **Phrasal verbs** (e.g. "come across", "figure out", "put up with")
@@ -104,11 +70,11 @@ Scan all transcript entries where `speaker === "teacher"`. Identify expressions 
 
 **Skip** very basic or filler vocabulary such as "good", "yes", "ok", "right", "sure", "yeah".
 
-**Use the student's level from Step 3 to filter out expressions that are too simple.** Skip phrases the student clearly already knows based on their assessed level. However, never skip an expression just because it seems too advanced — these are real phrases from a real conversation, and encountering them in context is a valuable learning opportunity.
+**Use the student's level from Step 2 to filter out expressions that are too simple.** Skip phrases the student clearly already knows based on their assessed level. However, never skip an expression just because it seems too advanced — these are real phrases from a real conversation, and encountering them in context is a valuable learning opportunity.
 
 Aim for **5 to 10 recommendations** per lesson. If the lesson is short or the teacher used mostly simple language, fewer is fine. Quality matters more than quantity.
 
-## Step 5: Output Format
+## Step 4: Output Format
 
 Present each recommendation in the following format:
 
@@ -127,7 +93,7 @@ If a timestamp is not available in the transcript data, omit the Timestamp line.
 
 The example sentences you generate should be varied — use different subjects, situations, and tenses to show the phrase's versatility.
 
-## Step 6: Output Language Rules
+## Step 5: Output Language Rules
 
 Detect the language the user used in their request. This is their **native language** — use it for explanations and interaction throughout.
 
@@ -138,7 +104,7 @@ Detect the language the user used in their request. This is their **native langu
   - Chinese user → `> [Chinese explanation in one line]`
 - **Interaction with the user** (greetings, follow-up questions, study tips, transitions) should be in the detected native language.
 
-## Step 7: Opening and Closing
+## Step 6: Opening and Closing
 
 ### Opening
 
@@ -155,6 +121,20 @@ End with:
 
 - A short study tip relevant to the types of expressions found (e.g. if many phrasal verbs were extracted, suggest a strategy for learning phrasal verbs)
 - An encouraging closing remark
+
+## Step 7: Save Review to File
+
+After presenting the review to the user, save the full review content as a Markdown file. The saved file should contain the complete review output (opening, all recommendations, closing) exactly as presented to the user.
+
+**Where to save:**
+
+- If transcripts were found via `list` or the user provided a file path, save in the same directory as the JSON file(s).
+- If the user sent an attachment (file in a temporary directory), skip saving — just present the review in the conversation.
+
+**Naming convention:**
+
+- **Single lesson**: `cambly-review-{lesson_date}-{tutor_name}.md` — tutor name should be lowercased with spaces replaced by underscores. Example: `cambly-review-2026-03-09-gail_r.md`
+- **Multiple lessons**: `cambly-review-{today's_date}.md` — uses today's date since it's a batch review. Example: `cambly-review-2026-03-22.md`
 
 ## Important Notes
 

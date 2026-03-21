@@ -37,7 +37,7 @@ Cambly 回放页面  ──>  Chrome 扩展  ──>  JSON 对话记录  ──>
 
 文件自动命名为：`cambly-2026-03-15-tutor_name.json`
 
-> **注意：** 你可以在扩展弹窗中修改保存文件夹，但需要同步更新 `skill/cambly-review.md` 中的路径，否则 Skill 无法找到你的文件。
+> **注意：** 你可以在扩展弹窗中修改保存文件夹，但需要同步更新 `skill/SKILL.md` 中的路径，否则 Skill 无法找到你的文件。
 
 > **已知问题：** [Chrono 下载管理器](https://chromewebstore.google.com/detail/chrono-download-manager/mciiogijehkdemklbdcbfkefimifhecn)扩展会导致下载的文件名变成 UUID 格式。使用本扩展前请先禁用 Chrono。
 
@@ -47,14 +47,14 @@ Cambly 回放页面  ──>  Chrome 扩展  ──>  JSON 对话记录  ──>
 
 ### Skill 安装
 
-将 skill 文件复制到你使用的 coding agent 目录：
+将 skill 目录复制到你使用的 coding agent 目录：
 
 <details>
 <summary><strong>OpenClaw</strong></summary>
 
 ```bash
 mkdir -p ~/.openclaw/skills/cambly-review
-cp skill/cambly-review.md ~/.openclaw/skills/cambly-review/SKILL.md
+cp -r skill/* ~/.openclaw/skills/cambly-review/
 ```
 </details>
 
@@ -63,7 +63,7 @@ cp skill/cambly-review.md ~/.openclaw/skills/cambly-review/SKILL.md
 
 ```bash
 mkdir -p ~/.claude/skills/cambly-review
-cp skill/cambly-review.md ~/.claude/skills/cambly-review/SKILL.md
+cp -r skill/* ~/.claude/skills/cambly-review/
 ```
 </details>
 
@@ -72,7 +72,7 @@ cp skill/cambly-review.md ~/.claude/skills/cambly-review/SKILL.md
 
 ```bash
 mkdir -p ~/.codex/skills/cambly-review
-cp skill/cambly-review.md ~/.codex/skills/cambly-review/SKILL.md
+cp -r skill/* ~/.codex/skills/cambly-review/
 ```
 </details>
 
@@ -81,7 +81,7 @@ cp skill/cambly-review.md ~/.codex/skills/cambly-review/SKILL.md
 
 ```bash
 mkdir -p ~/.gemini/skills/cambly-review
-cp skill/cambly-review.md ~/.gemini/skills/cambly-review/SKILL.md
+cp -r skill/* ~/.gemini/skills/cambly-review/
 ```
 </details>
 
@@ -90,7 +90,7 @@ cp skill/cambly-review.md ~/.gemini/skills/cambly-review/SKILL.md
 
 ```bash
 mkdir -p ~/.copilot/skills/cambly-review
-cp skill/cambly-review.md ~/.copilot/skills/cambly-review/SKILL.md
+cp -r skill/* ~/.copilot/skills/cambly-review/
 ```
 </details>
 

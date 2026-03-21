@@ -37,7 +37,7 @@ Cambly Replay Page  ──>  Chrome Extension  ──>  JSON transcript  ──>
 
 Files are named automatically: `cambly-2026-03-15-tutor_name.json`
 
-> **Note:** You can change the save folder in the extension popup, but make sure to also update the path in `skill/cambly-review.md` so the skill can find your files.
+> **Note:** You can change the save folder in the extension popup, but make sure to also update the path in `skill/SKILL.md` so the skill can find your files.
 
 > **Known issue:** The [Chrono Download Manager](https://chromewebstore.google.com/detail/chrono-download-manager/mciiogijehkdemklbdcbfkefimifhecn) extension can cause files to save with UUID filenames instead of the expected format. Disable Chrono before using this extension.
 
@@ -47,14 +47,14 @@ Files are named automatically: `cambly-2026-03-15-tutor_name.json`
 
 ### Skill setup
 
-Copy the skill file to whichever coding agent you use:
+Copy the skill directory to whichever coding agent you use:
 
 <details>
 <summary><strong>OpenClaw</strong></summary>
 
 ```bash
 mkdir -p ~/.openclaw/skills/cambly-review
-cp skill/cambly-review.md ~/.openclaw/skills/cambly-review/SKILL.md
+cp -r skill/* ~/.openclaw/skills/cambly-review/
 ```
 </details>
 
@@ -63,7 +63,7 @@ cp skill/cambly-review.md ~/.openclaw/skills/cambly-review/SKILL.md
 
 ```bash
 mkdir -p ~/.claude/skills/cambly-review
-cp skill/cambly-review.md ~/.claude/skills/cambly-review/SKILL.md
+cp -r skill/* ~/.claude/skills/cambly-review/
 ```
 </details>
 
@@ -72,7 +72,7 @@ cp skill/cambly-review.md ~/.claude/skills/cambly-review/SKILL.md
 
 ```bash
 mkdir -p ~/.codex/skills/cambly-review
-cp skill/cambly-review.md ~/.codex/skills/cambly-review/SKILL.md
+cp -r skill/* ~/.codex/skills/cambly-review/
 ```
 </details>
 
@@ -81,7 +81,7 @@ cp skill/cambly-review.md ~/.codex/skills/cambly-review/SKILL.md
 
 ```bash
 mkdir -p ~/.gemini/skills/cambly-review
-cp skill/cambly-review.md ~/.gemini/skills/cambly-review/SKILL.md
+cp -r skill/* ~/.gemini/skills/cambly-review/
 ```
 </details>
 
@@ -90,7 +90,7 @@ cp skill/cambly-review.md ~/.gemini/skills/cambly-review/SKILL.md
 
 ```bash
 mkdir -p ~/.copilot/skills/cambly-review
-cp skill/cambly-review.md ~/.copilot/skills/cambly-review/SKILL.md
+cp -r skill/* ~/.copilot/skills/cambly-review/
 ```
 </details>
 
