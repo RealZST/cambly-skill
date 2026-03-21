@@ -1,83 +1,79 @@
-# Cambly 课程录音转文字抓取器
+# Cambly 课后复习
 
-一个 Chrome 扩展，用于从 [Cambly](https://www.cambly.com) 课程回放页面提取对话记录，并保存为结构化的 JSON 文件。
+保存 Cambly 课程对话记录到本地，再用 AI Skill 复习老师说过的实用短语、习语和词汇。
 
 > **English →** [README.md](../README.md)
 
-## 功能特点
+## 这个项目是做什么的
 
-- **一键抓取** — 从任意 Cambly 课程回放页面提取完整对话记录
-- **自动提取元数据** — 自动获取上课日期、老师名、学生名和课程时长，无需手动输入
-- **说话人识别** — 通过头像 URL 自动区分老师和学生
-- **时间戳** — 保留课程中每条消息的时间戳
-- **结构化 JSON 输出** — 干净、可机器读取的格式，方便后续处理
+项目分两部分：
 
-## 工作原理
+1. **Chrome 扩展** — 从 Cambly 课程回放页面抓取对话记录，保存为本地 JSON 文件。
+2. **复习 Skill** — 一个 AI 技能（适用于 [OpenClaw](https://github.com/anthropics/openclaw)、Claude Code、Codex 等），读取保存的对话记录，帮你复习老师说过的实用表达——习语、短语动词、地道搭配。
 
-1. 打开 Cambly 课程回放页面（`/student/progress/past-lesson?lessonV2Id=...`）
-2. 点击浏览器工具栏中的扩展图标
-3. 点击 **Scrape & Save**
-4. 扩展会自动执行以下操作：
-   - 切换到**反馈**标签页，提取上课日期和老师名
-   - 切换到**语音转文字**标签页，通过 React fiber 内部数据提取完整对话记录
-   - 将 JSON 文件下载到 `~/Downloads/cambly-scripts/`
+## 第一部分：Chrome 扩展
 
-### 输出格式
-
-**文件名：** `cambly-{日期}-{老师名}.json`（例如 `cambly-2026-03-15-jane_tutor.json`）
-
-```json
-{
-  "meta": {
-    "date": "2026-03-15",
-    "teacher": "jane_tutor",
-    "student": "John",
-    "duration": "28:45",
-    "url": "https://www.cambly.com/..."
-  },
-  "transcript": [
-    {
-      "speaker": "teacher",
-      "name": "jane_tutor",
-      "text": "Hi, how are you today?",
-      "timestamp": "0:03"
-    },
-    {
-      "speaker": "student",
-      "name": "John",
-      "text": "I'm doing great, thanks!",
-      "timestamp": "0:07"
-    }
-  ]
-}
-```
-
-## 安装方法
+### 安装
 
 1. 克隆或下载本仓库
 2. 在 Chrome 中打开 `chrome://extensions/`
 3. 开启右上角的**开发者模式**
 4. 点击**加载已解压的扩展程序**，选择 `extension/` 文件夹
 
-## 已知问题
+### 使用方法
 
-### Chrono 下载管理器兼容性问题
+1. 登录 [Cambly](https://www.cambly.com)，打开一节课的**回放页面**
+2. 点击浏览器工具栏中的扩展图标
+3. 点击 **Scrape & Save**
+4. JSON 文件会保存到「下载」文件夹下的 `cambly-transcripts/` 目录
 
-如果你安装了 **Chrono 下载管理器**扩展，下载的文件名会变成 **UUID 格式**（例如 `a57ec8de-c1d2-4c67-a60c-7781de56d48b.json`），而不是预期的 `cambly-{日期}-{老师名}.json` 格式。
+文件名格式为 `cambly-2026-03-15-jane_tutor.json`，上课日期和老师名会自动提取。
 
-**原因：** Chrono 会拦截 Chrome 的 `chrome.downloads.download()` API 调用，但无法读取其中的 `filename` 参数。它只能从 blob URL 中提取文件名，而 blob URL 的标识符是一个 UUID。
+### 注意：文件夹名称与 Skill 同步
 
-**解决方法：** 在使用本扩展前，请先禁用 Chrono（或其他第三方下载管理器扩展）。使用完毕后可以重新启用。
+文件默认保存到 `~/Downloads/cambly-transcripts/`。你可以在扩展弹窗中修改文件夹名称，但如果修改了，需要同步更新 `skill/cambly-review.md` 中的路径，否则复习 Skill 将无法找到你的文件。
 
-## 技术栈
+### 已知问题：Chrono 下载管理器
 
-| 组件 | 说明 |
-|---|---|
-| 平台 | Chrome 扩展（Manifest V3） |
-| Content Script | 运行在 ISOLATED 环境 — 负责与 popup 通信 |
-| Page Script | 运行在 MAIN 环境 — 访问 React fiber 树和 DOM |
-| 通信方式 | ISOLATED 与 MAIN 环境之间通过 CustomEvent 通信 |
-| 数据提取 | 遍历 React fiber 树获取 transcript 数据 |
+如果你安装了 **Chrono 下载管理器**扩展，下载的文件名会变成 UUID 格式（例如 `a57ec8de-c1d2-4c67-a60c-7781de56d48b.json`），而不是预期的格式。
+
+**解决方法：** 使用本扩展前先禁用 Chrono，用完后可以重新启用。
+
+## 第二部分：复习 Skill
+
+保存对话记录后，你可以用 AI Skill 来复习。用自然语言提问即可：
+
+- *"Review my Cambly lesson from yesterday"*
+- *"昨天 Cambly 的课我该记哪些短语？"*
+- *"帮我复习一下 3 月 15 号的课"*
+
+Skill 会：
+
+1. 根据日期找到对应的对话记录文件
+2. 从你的发言评估你的英语水平
+3. 从**老师的发言**中挑出值得学习的表达——习语、短语动词、实用搭配
+4. 展示每个表达的原句、时间戳、对话上下文和例句
+
+### Skill 安装
+
+将 `skill/cambly-review.md` 复制到你的 AI 工具的 skill 目录。以 OpenClaw 为例：
+
+```bash
+cp skill/cambly-review.md ~/.openclaw/skills/
+```
+
+### 输出示例
+
+> **1. hit the ground running**
+> - **Original sentence**: "You really hit the ground running with that project."
+> - **Timestamp**: 12:34
+> - **Context**: Discussing how the student started a new job and adapted quickly.
+> - **Examples**:
+>   1. She hit the ground running in her new role and impressed everyone.
+>   2. We need someone who can hit the ground running without much training.
+>   3. After the onboarding, he hit the ground running on the first day.
+>
+> > 中文释义：形容某人很快适应新环境并开始高效工作。
 
 ## 许可证
 

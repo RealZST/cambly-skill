@@ -171,7 +171,7 @@ scrapeBtn.addEventListener("click", async () => {
     const { meta, transcript } = result.data;
     const date = formatDate(meta.date);
     const teacher = (meta.teacher || "unknown").replace(/[\/\\:*?"<>|]/g, "_");
-    const folder = saveFolderInput.value.trim() || "cambly-scripts";
+    const folder = saveFolderInput.value.trim() || "cambly-transcripts";
     const baseName = `cambly-${date}-${teacher}`;
     const prefix = `${folder}/${baseName}`;
 

@@ -7,50 +7,74 @@ description: Review vocabulary, idioms, and phrasal verbs from Cambly lesson tra
 
 You help users review vocabulary and phrases from their Cambly English lesson transcripts. Your job is to analyze the teacher's speech, identify expressions worth learning, and present them in a structured format with examples.
 
-## Step 1: Determine Which Lesson to Review
+## Step 1: Find the Right Transcript Data
 
-The user may refer to a lesson in several ways:
+Transcript data can come from three sources, in priority order:
 
-- "yesterday's lesson" or "last lesson" — find the most recent file by date
-- A specific date such as "March 20" or "2026-03-20"
-- A generic request like "review my Cambly lesson"
+### Priority 1: User-provided file
 
-Search for JSON transcript files using the Glob tool with these patterns:
+If the user has provided a file path or pasted transcript content directly in the conversation, use that. Read the file or parse the pasted content. Skip to Step 2.
 
-- `~/Downloads/cambly-*.json`
-- `~/Downloads/cambly-lessons/cambly-*.json`
+### Priority 2: Default directory
 
-Files follow the naming convention `cambly-YYYY-MM-DD.json`. If multiple files exist for the same date (e.g. `cambly-2026-03-20.json` and `cambly-2026-03-20-2.json`), list them and ask the user which one to review.
+If no file was provided, search the default directory:
 
-If the user says "yesterday", "last", or gives no specific date, select the file with the most recent date in its filename.
+```
+~/Downloads/cambly-transcripts/cambly-*.json
+```
 
-If no matching files are found, tell the user where you looked and ask them to provide the file path.
+Files follow the naming convention `cambly-{YYYY-MM-DD}-{teacher_name}.json` (e.g., `cambly-2026-03-15-jane_tutor.json`).
 
-## Step 2: Read and Parse the JSON File
+Use today's date to interpret relative time references ("yesterday", "this week", etc.).
 
-Use the Read tool to open the selected file. The expected JSON structure is:
+#### Selection Rules
+
+| User says | What to do |
+|---|---|
+| No specifics — "复习一下 Cambly 的课", "review my Cambly lesson" | Pick the **most recent** file (by date in filename) |
+| A specific date — "March 15 的课", "2026-03-15" | Find the file matching that date |
+| A specific teacher — "复习 jane_tutor 的课", "review lessons with jane" | Find that teacher's **last 2–3 lessons** (match teacher name in filename) |
+| A time range — "最近两次课", "this week", "last 3 lessons" | Determine the date range (e.g., "this week" = Monday–Sunday of current week), select all matching files |
+| A teacher + time — "jane_tutor 这周的课" | Combine both filters: match teacher name AND date range |
+
+**If the selection is ambiguous** (e.g., multiple teachers on the same date), list the options briefly and ask the user to choose.
+
+#### Multiple Lessons
+
+When reviewing multiple lessons, read all selected files and present a **combined** review. Group recommendations by lesson (with date and teacher as section headers), but write a single unified opening and closing.
+
+### Priority 3: No data found
+
+If no file was provided and no files exist in the default directory, tell the user:
+
+- Where you searched (`~/Downloads/cambly-transcripts/`)
+- Ask them to provide a file path or paste the transcript content directly
+
+## Step 2: Read and Parse the JSON Files
+
+Use the Read tool to open each selected file. The expected JSON structure is:
 
 ```json
 {
   "meta": {
     "date": "2026-03-20",
-    "teacher": "Teacher Name",
-    "student": "Student Name",
-    "duration": "30 min",
+    "teacher": "jane_tutor",
+    "student": "John",
+    "duration": "28:45",
     "url": "https://..."
   },
   "transcript": [
     {
       "speaker": "teacher",
-      "name": "Teacher Name",
+      "name": "jane_tutor",
       "text": "The sentence they said.",
-      "timestamp": "05:23"
+      "timestamp": "5:23"
     },
     {
       "speaker": "student",
-      "name": "Student Name",
+      "name": "John",
       "text": "The sentence they said.",
-      "timestamp": "05:45"
+      "timestamp": "5:45"
     }
   ]
 }
@@ -115,10 +139,10 @@ Follow these language rules strictly:
 
 Begin your review with a brief summary:
 
-- Lesson date
-- Teacher name
+- Lesson date(s) and teacher name(s)
 - Estimated lesson duration (if available)
 - A one-sentence overview of the main topics discussed
+- When reviewing multiple lessons, briefly note how many lessons are covered
 
 ### Closing
 
@@ -132,3 +156,4 @@ End with:
 - Never fabricate transcript content. Only quote sentences that actually appear in the transcript.
 - If the transcript is very short or contains little usable teacher speech, say so honestly and provide whatever recommendations you can.
 - If the user asks follow-up questions about any expression (e.g. "how is this different from X?" or "can I use this in formal writing?"), answer in detail with additional examples.
+- When reviewing multiple lessons, if the same expression appears across lessons, mention it once and note that it came up multiple times — this signals it's especially worth learning.
