@@ -43,25 +43,6 @@ Files are named automatically: `cambly-2026-03-15-tutor_name.json`
 
 ## 📝 Part 2: Review Skill
 
-Once you have a transcript, just ask your coding agent to review it — in any language:
-
-- *"Review my Cambly lesson"*
-- *"What phrases should I remember from my March 15 lesson?"*
-- *"Review my lessons with Jane"*
-- *"Review last 3 lessons"*
-- *"Review this week's lessons"*
-
-### What the skill does
-
-| Step | Description |
-|------|-------------|
-| **Find** | Locates the right transcript by date, tutor, or time range |
-| **Assess** | Reads your speech to gauge your English level |
-| **Extract** | Picks out idioms, phrasal verbs, and collocations from your **tutor's** speech |
-| **Present** | Shows each expression with original sentence, context, examples, and a native-language explanation |
-
-The skill filters out expressions that are too simple for your level, but keeps advanced ones.
-
 ### Skill setup
 
 Copy the skill file to whichever coding agent you use:
@@ -101,6 +82,27 @@ mkdir -p ~/.gemini/skills/cambly-review
 cp skill/cambly-review.md ~/.gemini/skills/cambly-review/SKILL.md
 ```
 </details>
+
+### Usage
+
+Once you have a transcript, just ask your coding agent to review it — in any language:
+
+- *"Review my Cambly lesson"*
+- *"What phrases should I remember from my March 15 lesson?"*
+- *"Review my lessons with Jane"*
+- *"Review last 3 lessons"*
+- *"Review this week's lessons"*
+
+### What the skill does
+
+| Step | Description |
+|------|-------------|
+| **Find** | Locates the right transcript by date, tutor, or time range |
+| **Assess** | Reads your speech to gauge your English level |
+| **Extract** | Picks out idioms, phrasal verbs, and collocations from your **tutor's** speech |
+| **Present** | Shows each expression with original sentence, context, examples, and a native-language explanation |
+
+The skill filters out expressions that are too simple for your level, but keeps advanced ones.
 
 ### Example output
 
