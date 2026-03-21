@@ -1,17 +1,23 @@
 # Cambly Lesson Review
 
-Save your Cambly lesson transcripts locally, then use a skill to review key vocabulary, idioms, and phrasal verbs from your teacher's speech.
+Save your Cambly lesson transcripts locally with a Chrome extension, then let an AI skill analyze your teacher's speech and surface the idioms, phrasal verbs, and expressions worth remembering.
 
 > **中文文档 →** [docs/README_zh.md](docs/README_zh.md)
 
-## What This Project Does
+---
 
-This project has two parts:
+## How It Works
 
-1. **Chrome Extension** — Scrapes the transcript from a Cambly lesson replay page and saves it as a JSON file on your computer.
-2. **Review Skill** — A skill for OpenClaw, Claude Code, Codex, Gemini CLI, etc. that reads your saved transcripts and helps you review what your teacher said — highlighting useful phrases, idioms, and expressions worth remembering.
+```
+Cambly Replay Page  ──>  Chrome Extension  ──>  JSON transcript  ──>  Review Skill  ──>  Vocabulary report
+```
 
-## Part 1: Chrome Extension
+1. **Save** — The Chrome extension scrapes your lesson replay and saves the transcript as a structured JSON file.
+2. **Review** — The skill reads the transcript, assesses your level, and recommends expressions from your teacher's speech — with context, examples, and native-language explanations.
+
+---
+
+## 📥 Part 1: Chrome Extension
 
 ### Setup
 
@@ -25,72 +31,76 @@ This project has two parts:
 1. Log in to [Cambly](https://www.cambly.com) and open a **lesson replay** page
 2. Click the extension icon in the toolbar
 3. Click **Scrape & Save**
-4. A JSON file is saved to your Downloads folder under `cambly-transcripts/`
+4. A JSON file is saved to `~/Downloads/cambly-transcripts/`
 
-The file is named like `cambly-2026-03-15-jane_tutor.json` — the lesson date and teacher name are extracted automatically.
+Files are named automatically: `cambly-2026-03-15-jane_tutor.json`
 
-### Using Your Transcripts
+> **Note:** You can change the save folder in the extension popup, but make sure to also update the path in `skill/cambly-review.md` so the skill can find your files.
 
-Once you have a transcript file, there are two ways to use it with the review skill:
+> **Known issue:** The [Chrono Download Manager](https://chromewebstore.google.com/detail/chrono-download-manager/mciiogijehkdemklbdcbfkefimifhecn) extension can cause files to save with UUID filenames instead of the expected format. Disable Chrono before using this extension.
 
-1. **Provide the file directly** — give the file path or paste the content when talking to your Code Agent
-2. **Let the skill find it automatically** — just ask to review and the skill will search `~/Downloads/cambly-transcripts/` by date, teacher, or time range
+---
 
-### Note: Folder Name and Skill Sync
+## 📝 Part 2: Review Skill
 
-Files are saved to `~/Downloads/cambly-transcripts/` by default. You can change the folder name in the extension popup, but if you do, you must also update the path in `skill/cambly-review.md` to match — otherwise the review skill won't find your files.
-
-### Known Issue: Chrono Download Manager
-
-If you have the **Chrono Download Manager** extension installed, downloaded files will have UUID-based filenames (e.g., `a57ec8de-c1d2-4c67-a60c-7781de56d48b.json`) instead of the expected format.
-
-**Workaround:** Disable Chrono before using this extension. You can re-enable it afterward.
-
-## Part 2: Review Skill
-
-After saving a transcript, you can review it with the included skill. Just ask naturally:
+Once you have a transcript, just ask your Code Agent to review it — in any language:
 
 - *"Review my Cambly lesson from yesterday"*
 - *"What phrases should I remember from my March 15 lesson?"*
-- *"Review my lessons with jane_tutor"*
-- *"Review last week's lessons"*
+- *"帮我复习一下上周的课"*
 
-The skill will:
+### What the skill does
 
-1. Find the right transcript by date, teacher, or time range
-2. Assess your English level from your speech
-3. Pick out useful expressions from your **teacher's** speech — idioms, phrasal verbs, collocations
-4. Show each expression with the original sentence, timestamp, conversation context, example sentences, and a native-language explanation (auto-detected from how you ask)
+| Step | Description |
+|------|-------------|
+| **Find** | Locates the right transcript by date, teacher, or time range |
+| **Assess** | Reads your speech to gauge your English level |
+| **Extract** | Picks out idioms, phrasal verbs, and collocations from your **teacher's** speech |
+| **Present** | Shows each expression with original sentence, context, examples, and a native-language explanation |
 
-### Skill Setup
+The skill filters out expressions that are too simple for your level, but keeps advanced ones — if your teacher used it in conversation, it's worth learning.
 
-All major Code Agents follow the same convention: a skill directory containing a `SKILL.md` file. Copy the skill to whichever agent you use:
+### Skill setup
 
-**OpenClaw**
+Copy the skill file to whichever Code Agent you use:
+
+<details>
+<summary><strong>OpenClaw</strong></summary>
+
 ```bash
 mkdir -p ~/.openclaw/skills/cambly-review
 cp skill/cambly-review.md ~/.openclaw/skills/cambly-review/SKILL.md
 ```
+</details>
 
-**Claude Code**
+<details>
+<summary><strong>Claude Code</strong></summary>
+
 ```bash
 mkdir -p ~/.claude/skills/cambly-review
 cp skill/cambly-review.md ~/.claude/skills/cambly-review/SKILL.md
 ```
+</details>
 
-**Codex CLI**
+<details>
+<summary><strong>Codex CLI</strong></summary>
+
 ```bash
 mkdir -p ~/.codex/skills/cambly-review
 cp skill/cambly-review.md ~/.codex/skills/cambly-review/SKILL.md
 ```
+</details>
 
-**Gemini CLI**
+<details>
+<summary><strong>Gemini CLI</strong></summary>
+
 ```bash
 mkdir -p ~/.gemini/skills/cambly-review
 cp skill/cambly-review.md ~/.gemini/skills/cambly-review/SKILL.md
 ```
+</details>
 
-### Example Output
+### Example output
 
 > **1. hit the ground running**
 > - **Original sentence**: "You really hit the ground running with that project."
@@ -103,7 +113,9 @@ cp skill/cambly-review.md ~/.gemini/skills/cambly-review/SKILL.md
 >
 > > Meaning: Describes someone who adapts quickly and starts working effectively right away.
 
-*The explanation language adapts automatically — ask in Chinese and you'll get `> 中文释义: ...`, in Spanish `> Explicación: ...`, etc.*
+The explanation language adapts automatically — ask in Chinese and you'll get a Chinese explanation, in Spanish a Spanish one, etc.
+
+---
 
 ## License
 
