@@ -87,11 +87,19 @@ cp skill/cambly-review.md ~/.gemini/skills/cambly-review/SKILL.md
 
 ### 使用方法
 
-保存对话记录后，用任何语言向你的 coding agent 提问即可：
+Skill 支持三种方式提供对话记录：
 
-- *"Review my Cambly lesson from yesterday"*
-- *"昨天 Cambly 的课我该记哪些短语？"*
-- *"帮我复习一下 3 月 15 号的课"*
+1. **自动查找** — 直接说想复习，Skill 会自动在 `~/Downloads/cambly-transcripts/` 中查找
+2. **指定路径** — 提供电脑上任意位置的文件路径
+3. **发送文件** — 把对话记录文件直接发给 coding agent
+
+示例提问：
+
+- *"帮我复习一下 Cambly 的课"*
+- *"3 月 15 号的课有哪些短语值得记？"*
+- *"复习一下 Jane 的课"*
+- *"复习最近 3 节课"*
+- *"这周的课帮我复习一下"*
 
 ### Skill 做了什么
 

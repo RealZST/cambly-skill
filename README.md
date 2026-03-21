@@ -87,7 +87,13 @@ cp skill/cambly-review.md ~/.gemini/skills/cambly-review/SKILL.md
 
 ### Usage
 
-Once you have a transcript, just ask your coding agent to review it — in any language:
+The skill accepts transcripts in three ways:
+
+1. **Auto-find** — just ask to review and the skill searches `~/Downloads/cambly-transcripts/` automatically
+2. **Provide a custom path** — point to a transcript file anywhere on your machine
+3. **Attach a file** — send the transcript file directly to your coding agent
+
+Example prompts:
 
 - *"Review my Cambly lesson"*
 - *"What phrases should I remember from my March 15 lesson?"*
