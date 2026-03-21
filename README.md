@@ -45,9 +45,11 @@ Files are named automatically: `cambly-2026-03-15-tutor_name.json`
 
 Once you have a transcript, just ask your coding agent to review it — in any language:
 
-- *"Review my Cambly lesson from yesterday"*
+- *"Review my Cambly lesson"*
 - *"What phrases should I remember from my March 15 lesson?"*
-- *"Review last week's lessons"*
+- *"Review my lessons with Jane"*
+- *"Review last 3 lessons"*
+- *"Review this week's lessons"*
 
 ### What the skill does
 
