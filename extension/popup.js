@@ -116,25 +116,6 @@ function formatDate(dateStr) {
   return `${yyyy}-${mm}-${dd}`;
 }
 
-function generateMarkdown(meta, transcript) {
-  const date = formatDate(meta.date);
-  const teacher = meta.teacher || "Unknown";
-  const student = meta.student || "Unknown";
-  const duration = meta.duration || "N/A";
-
-  let md = `# Cambly Lesson — ${date}\n`;
-  md += `Teacher: ${teacher} | Student: ${student} | Duration: ${duration}\n\n`;
-  md += `---\n\n`;
-
-  for (const msg of transcript) {
-    const ts = msg.timestamp ? `[${msg.timestamp}] ` : "";
-    const role = msg.speaker === "teacher" ? "Teacher" : "Student";
-    md += `${ts}**[${role}]** ${msg.text}\n\n`;
-  }
-
-  return md;
-}
-
 // ---------------------------------------------------------------------------
 // Download with confirmation
 // ---------------------------------------------------------------------------
@@ -143,16 +124,37 @@ function downloadFile(content, filename, mimeType) {
   return new Promise((resolve, reject) => {
     const blob = new Blob([content], { type: mimeType });
     const url = URL.createObjectURL(blob);
-    chrome.downloads.download({ url, filename, saveAs: false }, (downloadId) => {
-      URL.revokeObjectURL(url);
-      if (chrome.runtime.lastError) {
-        reject(new Error(chrome.runtime.lastError.message));
-      } else if (downloadId == null) {
-        reject(new Error("Download failed."));
-      } else {
-        resolve(downloadId);
+    chrome.downloads.download(
+      { url, filename, saveAs: false, conflictAction: "uniquify" },
+      (downloadId) => {
+        if (chrome.runtime.lastError) {
+          URL.revokeObjectURL(url);
+          reject(new Error(chrome.runtime.lastError.message));
+          return;
+        }
+        if (downloadId == null) {
+          URL.revokeObjectURL(url);
+          reject(new Error("Download failed."));
+          return;
+        }
+        // Delay revocation so Chrome finishes reading the blob
+        const onChanged = (delta) => {
+          if (delta.id !== downloadId) return;
+          if (delta.state && delta.state.current === "complete") {
+            URL.revokeObjectURL(url);
+            chrome.downloads.onChanged.removeListener(onChanged);
+            resolve(downloadId);
+          } else if (delta.state && delta.state.current === "interrupted") {
+            URL.revokeObjectURL(url);
+            chrome.downloads.onChanged.removeListener(onChanged);
+            reject(new Error("Download interrupted."));
+          }
+        };
+        chrome.downloads.onChanged.addListener(onChanged);
+        // Safety fallback: revoke after 30s regardless
+        setTimeout(() => URL.revokeObjectURL(url), 30000);
       }
-    });
+    );
   });
 }
 
@@ -174,16 +176,14 @@ scrapeBtn.addEventListener("click", async () => {
     const prefix = `${folder}/${baseName}`;
 
     const jsonContent = JSON.stringify(result.data, null, 2);
-    const mdContent = generateMarkdown(meta, transcript);
 
-    showStatus("Saving files...", "info");
+    showStatus("Saving file...", "info");
 
     await downloadFile(jsonContent, `${prefix}.json`, "application/json");
-    await downloadFile(mdContent, `${prefix}.md`, "text/markdown");
 
     showStatus(
       `Saved! ${transcript.length} messages scraped.\n` +
-      `Files: ${baseName}.json, ${baseName}.md`,
+      `File: ${baseName}.json`,
       "success"
     );
   } catch (err) {
