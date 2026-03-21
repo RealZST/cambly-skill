@@ -31,11 +31,11 @@ Use today's date to interpret relative time references ("yesterday", "this week"
 
 | User says | What to do |
 |---|---|
-| No specifics — "复习一下 Cambly 的课", "review my Cambly lesson" | Pick the **most recent** file (by date in filename) |
-| A specific date — "March 15 的课", "2026-03-15" | Find the file matching that date |
-| A specific teacher — "复习 jane_tutor 的课", "review lessons with jane" | Find that teacher's **last 2–3 lessons** (match teacher name in filename) |
-| A time range — "最近两次课", "this week", "last 3 lessons" | Determine the date range (e.g., "this week" = Monday–Sunday of current week), select all matching files |
-| A teacher + time — "jane_tutor 这周的课" | Combine both filters: match teacher name AND date range |
+| No specifics — "review my Cambly lesson" | Pick the **most recent** file (by date in filename) |
+| A specific date — "my March 15 lesson", "2026-03-15" | Find the file matching that date |
+| A specific teacher — "review lessons with jane" | Find that teacher's **last 2–3 lessons** (match teacher name in filename) |
+| A time range — "last 2 lessons", "this week", "last 3 lessons" | Determine the date range (e.g., "this week" = Monday–Sunday of current week), select all matching files |
+| A teacher + time — "jane's lessons this week" | Combine both filters: match teacher name AND date range |
 
 **If the selection is ambiguous** (e.g., multiple teachers on the same date), list the options briefly and ask the user to choose.
 
@@ -131,9 +131,9 @@ Detect the language the user used in their request. This is their **native langu
 
 - **All linguistic content must be in English.** This includes: the phrases themselves, original sentences, context descriptions, and example sentences.
 - **A brief native-language explanation of each phrase's meaning** should follow the examples. Keep it to one line. Examples:
-  - Chinese user → `> 中文释义：形容某人很快适应新环境并开始高效工作。`
-  - Spanish user → `> Explicación: Describe a alguien que se adapta rápidamente y empieza a trabajar de forma eficiente.`
   - English user → `> Meaning: Describes someone who adapts quickly and starts working effectively right away.`
+  - Spanish user → `> Explicación: Describe a alguien que se adapta rápidamente y empieza a trabajar de forma eficiente.`
+  - Chinese user → `> [Chinese explanation in one line]`
 - **Interaction with the user** (greetings, follow-up questions, study tips, transitions) should be in the detected native language.
 
 ## Step 7: Opening and Closing

@@ -1,6 +1,6 @@
 # Cambly Lesson Review
 
-Save your Cambly lesson transcripts locally, then use an AI skill to review key vocabulary, idioms, and phrasal verbs from your teacher's speech.
+Save your Cambly lesson transcripts locally, then use a skill to review key vocabulary, idioms, and phrasal verbs from your teacher's speech.
 
 > **中文文档 →** [docs/README_zh.md](docs/README_zh.md)
 
@@ -9,7 +9,7 @@ Save your Cambly lesson transcripts locally, then use an AI skill to review key 
 This project has two parts:
 
 1. **Chrome Extension** — Scrapes the transcript from a Cambly lesson replay page and saves it as a JSON file on your computer.
-2. **Review Skill** — An AI skill (for OpenClaw, Claude Code, Codex, Gemini CLI, etc.) that reads your saved transcripts and helps you review what your teacher said — highlighting useful phrases, idioms, and expressions worth remembering.
+2. **Review Skill** — A skill for OpenClaw, Claude Code, Codex, Gemini CLI, etc. that reads your saved transcripts and helps you review what your teacher said — highlighting useful phrases, idioms, and expressions worth remembering.
 
 ## Part 1: Chrome Extension
 
@@ -29,6 +29,13 @@ This project has two parts:
 
 The file is named like `cambly-2026-03-15-jane_tutor.json` — the lesson date and teacher name are extracted automatically.
 
+### Using Your Transcripts
+
+Once you have a transcript file, there are two ways to use it with the review skill:
+
+1. **Provide the file directly** — give the file path or paste the content when talking to your Code Agent
+2. **Let the skill find it automatically** — just ask to review and the skill will search `~/Downloads/cambly-transcripts/` by date, teacher, or time range
+
 ### Note: Folder Name and Skill Sync
 
 Files are saved to `~/Downloads/cambly-transcripts/` by default. You can change the folder name in the extension popup, but if you do, you must also update the path in `skill/cambly-review.md` to match — otherwise the review skill won't find your files.
@@ -41,7 +48,7 @@ If you have the **Chrono Download Manager** extension installed, downloaded file
 
 ## Part 2: Review Skill
 
-After saving a transcript, you can review it with the included AI skill. Just ask naturally:
+After saving a transcript, you can review it with the included skill. Just ask naturally:
 
 - *"Review my Cambly lesson from yesterday"*
 - *"What phrases should I remember from my March 15 lesson?"*
@@ -50,11 +57,10 @@ After saving a transcript, you can review it with the included AI skill. Just as
 
 The skill will:
 
-1. Find the transcript file by date
+1. Find the right transcript by date, teacher, or time range
 2. Assess your English level from your speech
 3. Pick out useful expressions from your **teacher's** speech — idioms, phrasal verbs, collocations
-4. Show each expression with the original sentence, timestamp, conversation context, and example sentences
-5. Explain meanings in **your native language** — detected automatically from how you ask
+4. Show each expression with the original sentence, timestamp, conversation context, example sentences, and a native-language explanation (auto-detected from how you ask)
 
 ### Skill Setup
 
