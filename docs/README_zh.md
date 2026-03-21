@@ -9,7 +9,7 @@
 项目分两部分：
 
 1. **Chrome 扩展** — 从 Cambly 课程回放页面抓取对话记录，保存为本地 JSON 文件。
-2. **复习 Skill** — 一个 AI 技能（适用于 [OpenClaw](https://github.com/anthropics/openclaw)、Claude Code、Codex 等），读取保存的对话记录，帮你复习老师说过的实用表达——习语、短语动词、地道搭配。
+2. **复习 Skill** — 一个 AI 技能（适用于 OpenClaw、Claude Code、Codex、Gemini CLI 等），读取保存的对话记录，帮你复习老师说过的实用表达——习语、短语动词、地道搭配。
 
 ## 第一部分：Chrome 扩展
 
@@ -53,13 +53,34 @@ Skill 会：
 2. 从你的发言评估你的英语水平
 3. 从**老师的发言**中挑出值得学习的表达——习语、短语动词、实用搭配
 4. 展示每个表达的原句、时间戳、对话上下文和例句
+5. 用**你的母语**解释含义——根据你提问时使用的语言自动识别
 
 ### Skill 安装
 
-将 `skill/cambly-review.md` 复制到你的 AI 工具的 skill 目录。以 OpenClaw 为例：
+各主流 Code Agent 都遵循相同的规范：在 skill 目录下创建一个以技能名命名的文件夹，放入 `SKILL.md` 文件。根据你使用的工具选择对应命令：
 
+**OpenClaw**
 ```bash
-cp skill/cambly-review.md ~/.openclaw/skills/
+mkdir -p ~/.openclaw/skills/cambly-review
+cp skill/cambly-review.md ~/.openclaw/skills/cambly-review/SKILL.md
+```
+
+**Claude Code**
+```bash
+mkdir -p ~/.claude/skills/cambly-review
+cp skill/cambly-review.md ~/.claude/skills/cambly-review/SKILL.md
+```
+
+**Codex CLI**
+```bash
+mkdir -p ~/.codex/skills/cambly-review
+cp skill/cambly-review.md ~/.codex/skills/cambly-review/SKILL.md
+```
+
+**Gemini CLI**
+```bash
+mkdir -p ~/.gemini/skills/cambly-review
+cp skill/cambly-review.md ~/.gemini/skills/cambly-review/SKILL.md
 ```
 
 ### 输出示例
@@ -74,6 +95,8 @@ cp skill/cambly-review.md ~/.openclaw/skills/
 >   3. After the onboarding, he hit the ground running on the first day.
 >
 > > 中文释义：形容某人很快适应新环境并开始高效工作。
+
+*释义语言会自动适配——用英语提问显示 `> Meaning: ...`，用西班牙语提问显示 `> Explicación: ...`，以此类推。*
 
 ## 许可证
 

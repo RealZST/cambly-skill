@@ -127,11 +127,14 @@ The example sentences you generate should be varied — use different subjects, 
 
 ## Step 6: Output Language Rules
 
-Follow these language rules strictly:
+Detect the language the user used in their request. This is their **native language** — use it for explanations and interaction throughout.
 
 - **All linguistic content must be in English.** This includes: the phrases themselves, original sentences, context descriptions, and example sentences.
-- **A brief Chinese explanation of each phrase's meaning is welcome** as a supplementary note after the examples. Keep it to one line, e.g. `> 中文释义：形容某人很快适应新环境并开始高效工作。`
-- **Interaction with the user** (greetings, follow-up questions, study tips, transitions) **can be in Chinese**, as the user is a Chinese speaker learning English.
+- **A brief native-language explanation of each phrase's meaning** should follow the examples. Keep it to one line. Examples:
+  - Chinese user → `> 中文释义：形容某人很快适应新环境并开始高效工作。`
+  - Spanish user → `> Explicación: Describe a alguien que se adapta rápidamente y empieza a trabajar de forma eficiente.`
+  - English user → `> Meaning: Describes someone who adapts quickly and starts working effectively right away.`
+- **Interaction with the user** (greetings, follow-up questions, study tips, transitions) should be in the detected native language.
 
 ## Step 7: Opening and Closing
 

@@ -9,7 +9,7 @@ Save your Cambly lesson transcripts locally, then use an AI skill to review key 
 This project has two parts:
 
 1. **Chrome Extension** — Scrapes the transcript from a Cambly lesson replay page and saves it as a JSON file on your computer.
-2. **Review Skill** — An AI skill (for [OpenClaw](https://github.com/anthropics/openclaw), Claude Code, Codex, etc.) that reads your saved transcripts and helps you review what your teacher said — highlighting useful phrases, idioms, and expressions worth remembering.
+2. **Review Skill** — An AI skill (for OpenClaw, Claude Code, Codex, Gemini CLI, etc.) that reads your saved transcripts and helps you review what your teacher said — highlighting useful phrases, idioms, and expressions worth remembering.
 
 ## Part 1: Chrome Extension
 
@@ -45,7 +45,8 @@ After saving a transcript, you can review it with the included AI skill. Just as
 
 - *"Review my Cambly lesson from yesterday"*
 - *"What phrases should I remember from my March 15 lesson?"*
-- *"帮我复习一下昨天 Cambly 的课"*
+- *"Review my lessons with jane_tutor"*
+- *"Review last week's lessons"*
 
 The skill will:
 
@@ -53,13 +54,34 @@ The skill will:
 2. Assess your English level from your speech
 3. Pick out useful expressions from your **teacher's** speech — idioms, phrasal verbs, collocations
 4. Show each expression with the original sentence, timestamp, conversation context, and example sentences
+5. Explain meanings in **your native language** — detected automatically from how you ask
 
 ### Skill Setup
 
-Copy `skill/cambly-review.md` to your AI tool's skill directory. For OpenClaw:
+All major Code Agents follow the same convention: a skill directory containing a `SKILL.md` file. Copy the skill to whichever agent you use:
 
+**OpenClaw**
 ```bash
-cp skill/cambly-review.md ~/.openclaw/skills/
+mkdir -p ~/.openclaw/skills/cambly-review
+cp skill/cambly-review.md ~/.openclaw/skills/cambly-review/SKILL.md
+```
+
+**Claude Code**
+```bash
+mkdir -p ~/.claude/skills/cambly-review
+cp skill/cambly-review.md ~/.claude/skills/cambly-review/SKILL.md
+```
+
+**Codex CLI**
+```bash
+mkdir -p ~/.codex/skills/cambly-review
+cp skill/cambly-review.md ~/.codex/skills/cambly-review/SKILL.md
+```
+
+**Gemini CLI**
+```bash
+mkdir -p ~/.gemini/skills/cambly-review
+cp skill/cambly-review.md ~/.gemini/skills/cambly-review/SKILL.md
 ```
 
 ### Example Output
@@ -73,7 +95,9 @@ cp skill/cambly-review.md ~/.openclaw/skills/
 >   2. We need someone who can hit the ground running without much training.
 >   3. After the onboarding, he hit the ground running on the first day.
 >
-> > 中文释义：形容某人很快适应新环境并开始高效工作。
+> > Meaning: Describes someone who adapts quickly and starts working effectively right away.
+
+*The explanation language adapts automatically — ask in Chinese and you'll get `> 中文释义: ...`, in Spanish `> Explicación: ...`, etc.*
 
 ## License
 
