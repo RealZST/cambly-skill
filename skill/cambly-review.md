@@ -33,7 +33,7 @@ Use today's date to interpret relative time references ("yesterday", "this week"
 |---|---|
 | No specifics — "review my Cambly lesson" | Pick the **most recent** file (by date in filename) |
 | A specific date — "my March 15 lesson", "2026-03-15" | Find the file matching that date |
-| A specific teacher — "review lessons with jane" | Find that teacher's **last 2–3 lessons** (match teacher name in filename) |
+| A specific teacher — "review lessons with jane" | Find that teacher's **most recent lesson** (match teacher name in filename) |
 | A time range — "last 2 lessons", "this week", "last 3 lessons" | Determine the date range (e.g., "this week" = Monday–Sunday of current week), select all matching files |
 | A teacher + time — "jane's lessons this week" | Combine both filters: match teacher name AND date range |
 
@@ -103,6 +103,8 @@ Scan all transcript entries where `speaker === "teacher"`. Identify expressions 
 4. **Interesting vocabulary** used naturally in context
 
 **Skip** very basic or filler vocabulary such as "good", "yes", "ok", "right", "sure", "yeah".
+
+**Use the student's level from Step 3 to filter recommendations.** For a beginner, focus on common phrasal verbs and everyday collocations — skip advanced idioms they won't encounter often. For an upper-intermediate or advanced student, skip expressions they likely already know and prioritize nuanced idioms, less common phrasal verbs, and sophisticated collocations. The goal is to recommend expressions that are slightly above the student's current level.
 
 Aim for **5 to 10 recommendations** per lesson. If the lesson is short or the teacher used mostly simple language, fewer is fine. Quality matters more than quantity.
 
