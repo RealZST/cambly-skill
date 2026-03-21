@@ -59,44 +59,27 @@
       margin-top: 3px;
     }
 
-    .buttons {
-      display: flex;
-      gap: 8px;
-      margin-top: 18px;
-    }
-
     button {
-      flex: 1;
-      padding: 9px 12px;
+      width: 100%;
+      margin-top: 18px;
+      padding: 10px 12px;
       font-size: 13px;
       font-weight: 500;
       border: none;
       border-radius: 6px;
       cursor: pointer;
+      background-color: #0d9488;
+      color: #fff;
       transition: opacity 0.15s, background-color 0.15s;
+    }
+
+    button:hover:not(:disabled) {
+      background-color: #0f766e;
     }
 
     button:disabled {
       opacity: 0.5;
       cursor: not-allowed;
-    }
-
-    #scrapeBtn {
-      background-color: #0d9488;
-      color: #fff;
-    }
-
-    #scrapeBtn:hover:not(:disabled) {
-      background-color: #0f766e;
-    }
-
-    #copyBtn {
-      background-color: #e5e7eb;
-      color: #374151;
-    }
-
-    #copyBtn:hover:not(:disabled) {
-      background-color: #d1d5db;
     }
 
     #status {
@@ -137,20 +120,12 @@
   <h1>Cambly Transcript Scraper</h1>
 
   <div class="field">
-    <label for="studentName" data-i18n="labelStudentName">学生姓名</label>
-    <input type="text" id="studentName" data-i18n-placeholder="placeholderStudentName" placeholder="Student Name">
+    <label for="saveFolder">Save Folder</label>
+    <input type="text" id="saveFolder" value="cambly-scripts">
+    <div class="hint">Subfolder under Downloads. Default: cambly-scripts</div>
   </div>
 
-  <div class="field">
-    <label for="saveFolder" data-i18n="labelSaveFolder">保存文件夹</label>
-    <input type="text" id="saveFolder" placeholder="cambly-lessons">
-    <div class="hint" data-i18n="hintSaveFolder">Downloads 中的子文件夹，留空则保存到 Downloads 根目录</div>
-  </div>
-
-  <div class="buttons">
-    <button id="scrapeBtn" data-i18n="btnScrape">抓取并保存</button>
-    <button id="copyBtn" data-i18n="btnCopy">复制到剪贴板</button>
-  </div>
+  <button id="scrapeBtn">Scrape & Save</button>
 
   <div id="status"></div>
 
