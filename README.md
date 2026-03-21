@@ -1,6 +1,6 @@
 # Cambly Lesson Review
 
-Save your Cambly lesson transcripts locally with a Chrome extension, then let an AI skill analyze your teacher's speech and surface the idioms, phrasal verbs, and expressions worth remembering.
+Save your Cambly lesson transcripts locally with a Chrome extension, then use a skill to analyze your teacher's speech and surface the idioms, phrasal verbs, and expressions worth remembering.
 
 > **中文文档 →** [docs/README_zh.md](docs/README_zh.md)
 
