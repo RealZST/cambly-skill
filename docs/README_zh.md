@@ -85,6 +85,15 @@ cp skill/cambly-review.md ~/.gemini/skills/cambly-review/SKILL.md
 ```
 </details>
 
+<details>
+<summary><strong>Copilot CLI</strong></summary>
+
+```bash
+mkdir -p ~/.copilot/skills/cambly-review
+cp skill/cambly-review.md ~/.copilot/skills/cambly-review/SKILL.md
+```
+</details>
+
 ### 使用方法
 
 Skill 支持三种方式提供对话记录：

@@ -85,6 +85,15 @@ cp skill/cambly-review.md ~/.gemini/skills/cambly-review/SKILL.md
 ```
 </details>
 
+<details>
+<summary><strong>Copilot CLI</strong></summary>
+
+```bash
+mkdir -p ~/.copilot/skills/cambly-review
+cp skill/cambly-review.md ~/.copilot/skills/cambly-review/SKILL.md
+```
+</details>
+
 ### Usage
 
 The skill accepts transcripts in three ways:

@@ -162,4 +162,3 @@ End with:
 - If the transcript is very short or contains little usable teacher speech, say so honestly and provide whatever recommendations you can.
 - If the user asks follow-up questions about any expression (e.g. "how is this different from X?" or "can I use this in formal writing?"), answer in detail with additional examples.
 - When reviewing multiple lessons, if the same expression appears across lessons, mention it once and note that it came up multiple times — this signals it's especially worth learning.
-- **Keep intermediate output minimal.** Do not narrate each step as you work (e.g. "Now I'm reading the transcript...", "Let me assess your level..."). Go straight to the final review output. The user wants results, not a play-by-play of your process.
