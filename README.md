@@ -138,6 +138,8 @@ The explanation language adapts automatically — ask in Chinese and you'll get 
 
 ---
 
-## License
+## Disclaimer
 
-MIT
+This project is **not affiliated with or endorsed by Cambly**. It is an independent tool for **personal, non-commercial use only**.
+
+The extension simply reads transcript data from the page you already have open in your browser — it does not send any additional network requests, access private APIs, or modify your account in any way.
