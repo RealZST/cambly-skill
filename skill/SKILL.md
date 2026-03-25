@@ -1,6 +1,9 @@
 ---
 name: cambly-review
 description: Review Cambly English lesson transcripts — extracts idioms, phrasal verbs, and useful expressions from tutor speech and presents them with context, examples, and native-language explanations. Use this skill whenever the user mentions Cambly, lesson review, lesson transcript, tutor expressions, vocabulary from a lesson, or wants to review what they learned in an English conversation class, even if they don't say "Cambly" explicitly.
+metadata:
+  author: RealZST
+  version: "1.0.0"
 ---
 
 # Cambly Lesson Review

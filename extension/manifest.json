@@ -9,7 +9,7 @@
     "storage"
   ],
   "host_permissions": [
-    "https://www.cambly.com/*"
+    "https://www.cambly.com/*/student/progress/past-lesson*"
   ],
   "content_scripts": [
     {

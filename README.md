@@ -45,54 +45,37 @@ Files are named automatically: `cambly-2026-03-15-tutor_name.json`
 
 ## 📝 Part 2: Review Skill
 
-### Skill setup
+### Install
 
-Copy the skill directory to whichever coding agent you use:
-
-<details>
-<summary><strong>OpenClaw</strong></summary>
+Via [skills.sh](https://skills.sh):
 
 ```bash
-mkdir -p ~/.openclaw/skills/cambly-review
-cp -r skill/* ~/.openclaw/skills/cambly-review/
+npx skills add RealZST/cambly-skill
 ```
-</details>
 
-<details>
-<summary><strong>Claude Code</strong></summary>
+Manual:
+
+Clone (or [download](https://github.com/RealZST/cambly-skill/archive/refs/heads/main.zip)) this repository, then copy the `skill/` folder into your agent's skills directory:
 
 ```bash
-mkdir -p ~/.claude/skills/cambly-review
-cp -r skill/* ~/.claude/skills/cambly-review/
+git clone https://github.com/RealZST/cambly-skill.git
+cd cambly-skill
+
+# Claude Code
+cp -r skill ~/.claude/skills/cambly-review
+
+# Codex
+cp -r skill ~/.codex/skills/cambly-review
+
+# Gemini CLI
+cp -r skill ~/.gemini/skills/cambly-review
+
+# OpenClaw
+cp -r skill ~/.openclaw/skills/cambly-review
+
+# Cursor / Windsurf / other agents
+# Copy the skill/ folder into the agent's skill directory
 ```
-</details>
-
-<details>
-<summary><strong>Codex</strong></summary>
-
-```bash
-mkdir -p ~/.codex/skills/cambly-review
-cp -r skill/* ~/.codex/skills/cambly-review/
-```
-</details>
-
-<details>
-<summary><strong>Gemini</strong></summary>
-
-```bash
-mkdir -p ~/.gemini/skills/cambly-review
-cp -r skill/* ~/.gemini/skills/cambly-review/
-```
-</details>
-
-<details>
-<summary><strong>Copilot</strong></summary>
-
-```bash
-mkdir -p ~/.copilot/skills/cambly-review
-cp -r skill/* ~/.copilot/skills/cambly-review/
-```
-</details>
 
 ### Usage
 
@@ -140,6 +123,10 @@ The explanation language adapts automatically — ask in Chinese and you'll get 
 
 ## Disclaimer
 
-This project is **not affiliated with or endorsed by Cambly**. It is an independent tool for **personal, non-commercial use only**.
+This project is **not affiliated with or endorsed by Cambly**. It is an independent tool built for personal language learning.
 
 The extension simply reads transcript data from the page you already have open in your browser — it does not send any additional network requests, access private APIs, or modify your account in any way.
+
+## License
+
+[MIT](LICENSE)

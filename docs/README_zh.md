@@ -45,54 +45,37 @@ Cambly 回放页面  ──>  Chrome 扩展  ──>  JSON 对话记录  ──>
 
 ## 📝 第二部分：复习 Skill
 
-### Skill 安装
+### 安装 Skill
 
-将 skill 目录复制到你使用的 coding agent 目录：
-
-<details>
-<summary><strong>OpenClaw</strong></summary>
+通过 [skills.sh](https://skills.sh)：
 
 ```bash
-mkdir -p ~/.openclaw/skills/cambly-review
-cp -r skill/* ~/.openclaw/skills/cambly-review/
+npx skills add RealZST/cambly-skill
 ```
-</details>
 
-<details>
-<summary><strong>Claude Code</strong></summary>
+手动安装：
+
+克隆（或[下载](https://github.com/RealZST/cambly-skill/archive/refs/heads/main.zip)）本仓库，然后将 `skill/` 文件夹复制到你的 agent 的 skills 目录：
 
 ```bash
-mkdir -p ~/.claude/skills/cambly-review
-cp -r skill/* ~/.claude/skills/cambly-review/
+git clone https://github.com/RealZST/cambly-skill.git
+cd cambly-skill
+
+# Claude Code
+cp -r skill ~/.claude/skills/cambly-review
+
+# Codex
+cp -r skill ~/.codex/skills/cambly-review
+
+# Gemini CLI
+cp -r skill ~/.gemini/skills/cambly-review
+
+# OpenClaw
+cp -r skill ~/.openclaw/skills/cambly-review
+
+# Cursor / Windsurf / 其他 agent
+# 将 skill/ 文件夹复制到对应 agent 的 skill 目录即可
 ```
-</details>
-
-<details>
-<summary><strong>Codex</strong></summary>
-
-```bash
-mkdir -p ~/.codex/skills/cambly-review
-cp -r skill/* ~/.codex/skills/cambly-review/
-```
-</details>
-
-<details>
-<summary><strong>Gemini</strong></summary>
-
-```bash
-mkdir -p ~/.gemini/skills/cambly-review
-cp -r skill/* ~/.gemini/skills/cambly-review/
-```
-</details>
-
-<details>
-<summary><strong>Copilot</strong></summary>
-
-```bash
-mkdir -p ~/.copilot/skills/cambly-review
-cp -r skill/* ~/.copilot/skills/cambly-review/
-```
-</details>
 
 ### 使用方法
 
@@ -140,6 +123,10 @@ Skill 会过滤掉对你来说太简单的表达，但不会跳过高级的。
 
 ## 声明
 
-本项目**与 Cambly 官方无任何关联**，是独立开发的个人工具，**仅供个人非商业用途**。
+本项目**与 Cambly 官方无任何关联**，是独立开发的个人语言学习工具。
 
 该扩展仅读取你当前浏览器中已打开页面的课程数据，不会发送额外的网络请求、访问任何私有 API 或修改你的账户信息。
+
+## 许可证
+
+[MIT](../LICENSE)
