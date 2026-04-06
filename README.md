@@ -23,10 +23,14 @@ Cambly Replay Page  ──>  Chrome Extension  ──>  JSON transcript  ──>
 
 ### Setup
 
-1. Clone or download this repository
-2. Open `chrome://extensions/` in Chrome
-3. Enable **Developer mode** (top-right toggle)
-4. Click **Load unpacked** and select the `extension/` folder
+You can install the extension in either of these ways:
+
+- Chrome Web Store: [Cambly Transcript Scraper](https://chromewebstore.google.com/detail/hjlokdjlccekhngaplmeefmojkhpkibb?utm_source=item-share-cb)
+- Local install from this repository:
+  1. Clone or download this repository
+  2. Open `chrome://extensions/` in Chrome
+  3. Enable **Developer mode** (top-right toggle)
+  4. Click **Load unpacked** and select the `extension/` folder
 
 ### Usage
 

@@ -23,10 +23,14 @@ Cambly 回放页面  ──>  Chrome 扩展  ──>  JSON 对话记录  ──>
 
 ### 安装
 
-1. 克隆或下载本仓库
-2. 在 Chrome 中打开 `chrome://extensions/`
-3. 开启右上角的**开发者模式**
-4. 点击**加载已解压的扩展程序**，选择 `extension/` 文件夹
+你可以通过以下任一方式安装扩展：
+
+- 直接通过 Chrome Web Store 安装：[Cambly Transcript Scraper](https://chromewebstore.google.com/detail/hjlokdjlccekhngaplmeefmojkhpkibb?utm_source=item-share-cb)
+- 或者从本仓库本地安装：
+  1. 克隆或下载本仓库
+  2. 在 Chrome 中打开 `chrome://extensions/`
+  3. 开启右上角的**开发者模式**
+  4. 点击**加载已解压的扩展程序**，选择 `extension/` 文件夹
 
 ### 使用方法
 
